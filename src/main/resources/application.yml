@@ -1,8 +1,10 @@
 server:
-  port: 8082
+  port: 8010
+  servlet:
+    context-path: /api
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://127.0.0.1/mobilego?characterEncoding=utf-8&useSSL=false
     username: root
-    password: 123456
+    password: root
