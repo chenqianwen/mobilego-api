@@ -2,11 +2,13 @@ package com.example.mobilego.controller;
 
 //import io.swagger.annotations.Api;
 //import io.swagger.annotations.ApiOperation;
+import com.example.mobilego.entity.Product;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,6 +27,12 @@ import java.util.Map;
 @Slf4j
 @Api(description = "商品模块")
 public class ProductController {
+
+    @ApiOperation(value = "保存／更新商品")
+    public Map<String,Object> save(@RequestBody Product product){
+        Map<String,Object> map = new HashMap<>();
+        return map;
+    }
 
 
     @ApiOperation(value = "wx首页获取横幅数据")
