@@ -1,12 +1,18 @@
 package com.example.mobilego.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.ToString;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
@@ -23,7 +29,7 @@ public class Product extends BaseEntity {
     @Column(name = "name", nullable = false, columnDefinition = "varchar(64) comment'商品名称'")
     private String name;
 
-    @Column(name = "price", nullable = false, length = 10, scale = 2, columnDefinition = "comment'商品价格'")
+    @Column(name = "price", nullable = false, columnDefinition = "decimal(10,2) comment'商品价格'")
     private BigDecimal price;
 
     @Column(name = "major_img_url", columnDefinition = "varchar(255) comment'主图url'")
@@ -41,15 +47,4 @@ public class Product extends BaseEntity {
     @Column(name = "is_banner", columnDefinition = "tinyint default 0 comment'商品的描述'")
     private Integer isBanner = 0;
 
-    @JoinTable(name = "theme_product",
-            joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "theme_id", referencedColumnName = "id")})
-    @ManyToMany
-    private Set<Theme> themes = new HashSet<>();
-
-    @JoinTable(name = "category_product",
-            joinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "category_id", referencedColumnName = "id")})
-    @ManyToMany
-    private Set<Category> categories = new HashSet<>();
 }

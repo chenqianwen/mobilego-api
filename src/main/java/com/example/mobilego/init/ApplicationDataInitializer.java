@@ -17,6 +17,7 @@ import java.util.List;
  * @Description： 应用的初始化器
  */
 @Slf4j
+@Component
 public class ApplicationDataInitializer implements ApplicationRunner {
 
     @Autowired(required = false)
@@ -33,7 +34,11 @@ public class ApplicationDataInitializer implements ApplicationRunner {
         if (CollectionUtils.isNotEmpty(dataInitializers)) {
             dataInitializers.sort(Comparator.comparing(DataInitializer::getIndex));
             dataInitializers.stream().forEach(dataInitializer -> {
-                log.info(dataInitializer.getClass().getSimpleName()+"----"+dataInitializer.getIndex());
+                try {
+                    dataInitializer.init();
+                } catch (Exception e) {
+                    log.info("系统数据初始化失败("+dataInitializer.getClass().getSimpleName()+")", e);
+                }
             });
         }
     }

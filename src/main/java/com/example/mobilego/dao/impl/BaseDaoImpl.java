@@ -9,6 +9,8 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -33,31 +35,6 @@ public class BaseDaoImpl<T extends BaseEntity> extends SimpleJpaRepository<T,Str
         this.entityManager = entityManager;
     }
 
-    /**
-     * 获取EntityManager
-     * @return
-     */
-    @Override
-    public EntityManager getEm() {
-        return entityManager;
-    }
-
-    /**
-     * 通过 ids 查找
-     * @param ids
-     * @return
-     */
-    @Override
-    public List<T> findByIds(Iterable<String> ids) {
-        List<T> list = new ArrayList<>();
-        for (String id : ids) {
-            T one = getOne(id);
-            if (one == null) {
-                list.add(one);
-            }
-        }
-        return list;
-    }
 
     /**
      * 通过ID查询

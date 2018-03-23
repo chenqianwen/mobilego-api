@@ -2,11 +2,14 @@ package com.example.mobilego.entity;
 
 import lombok.Data;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,9 +32,4 @@ public class Category extends BaseEntity{
     @Column(name = "sort",columnDefinition = "smallint comment'分类排序'")
     private Integer sort;
 
-    @JoinTable(name = "category_product",
-            joinColumns = {@JoinColumn(name = "category_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "id")})
-    @ManyToMany
-    private Set<Product> products = new HashSet<>();
 }

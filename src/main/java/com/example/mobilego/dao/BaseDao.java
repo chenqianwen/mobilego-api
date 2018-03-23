@@ -18,17 +18,4 @@ import java.util.List;
 @NoRepositoryBean
 public interface BaseDao<T extends BaseEntity> extends JpaRepository<T,String> ,JpaSpecificationExecutor<T> {
 
-    /**
-     * 获取entityManager
-     * @return
-     */
-    public EntityManager getEm();
-
-    /**
-     * 通过 ID 数组或者集合 查询数据集
-     * @param ids
-     * @return
-     */
-    List<T> findByIds(Iterable<String> ids);
-
 }

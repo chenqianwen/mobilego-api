@@ -1,33 +1,47 @@
 package com.example.mobilego.service.impl;
 
 import com.example.mobilego.dao.BaseDao;
+import com.example.mobilego.dao.impl.BaseDaoImpl;
 import com.example.mobilego.entity.BaseEntity;
 import com.example.mobilego.service.BaseService;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author： ygl
  * @date： 2018/3/21-11:17
  * @Description：
  */
-@Service
 public class BaseServiceImpl<T extends BaseEntity> implements BaseService<T> {
 
-    @Autowired
+    @Setter
     private BaseDao<T> baseDao;
 
     @Override
     public T findOne(String id) {
-        return baseDao.getOne(id);
+        Optional<T> optional = baseDao.findById(id);
+        return optional.orElse(null);
     }
 
     @Override
-    public List<T> findByIds(Iterable<String> ids) {
-        return baseDao.findByIds(ids);
+    public List<T> findByIds(List<String> ids) {
+        List<T> list = new ArrayList<>();
+        for (String id : ids) {
+            T one = baseDao.getOne(id);
+            if (one == null) {
+                list.add(one);
+            }
+        }
+        return list;
     }
 
     @Override

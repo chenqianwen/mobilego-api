@@ -16,5 +16,5 @@ public interface ProductService extends BaseService<Product>{
      * 获取横幅产品
      * @return
      */
-    List<Product> findBannerProduct();
+    List<Product> findBannerProduct() throws Exception;
 }

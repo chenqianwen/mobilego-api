@@ -32,7 +32,7 @@ public interface BaseService<T> {
      * @param ids
      * @return
      */
-    public List<T> findByIds(Iterable<String> ids);
+    public List<T> findByIds(List<String> ids);
 
     /**
      * 保存或者更新

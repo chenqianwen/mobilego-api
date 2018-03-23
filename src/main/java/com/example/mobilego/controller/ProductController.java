@@ -1,11 +1,11 @@
 package com.example.mobilego.controller;
 
-//import io.swagger.annotations.Api;
-//import io.swagger.annotations.ApiOperation;
-
 import com.example.mobilego.dto.ProductDto;
 import com.example.mobilego.entity.Product;
+import com.example.mobilego.entity.Theme;
+import com.example.mobilego.exception.UnauthorizedException;
 import com.example.mobilego.service.ProductService;
+import com.example.mobilego.service.ThemeService;
 import com.example.mobilego.util.response.Result;
 import com.example.mobilego.util.response.ResultHelper;
 import io.swagger.annotations.Api;
@@ -40,6 +40,9 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private ThemeService themeService;
+
     @ApiOperation(value = "保存／更新商品")
     @PostMapping
     public Result save(@RequestBody ProductDto model) {
@@ -49,7 +52,7 @@ public class ProductController {
 
     @ApiOperation(value = "查询商品")
     @GetMapping("/{id}")
-    public Result save(@PathVariable String id) {
+    public Result get(@PathVariable String id) throws Exception {
         Product model = productService.findOne(id);
         return ResultHelper.ok(model);
     }
@@ -79,7 +82,7 @@ public class ProductController {
 
     @ApiOperation(value = "wx首页获取横幅数据")
     @GetMapping("/banner")
-    public Result banner() {
+    public Result banner() throws Exception {
         List<Product> bannerProduct = productService.findBannerProduct();
         return ResultHelper.ok(bannerProduct);
     }
@@ -87,7 +90,8 @@ public class ProductController {
 
     @ApiOperation(value = "wx首页获取主题数据")
     @GetMapping("/theme")
-    public Object theme() {
+    public Result theme() throws Exception{
+        List<Theme> themeList = themeService.findThemeAndProductBySort();
         String[] tabs = new String[]{"每日推荐", "热门畅销", "折扣商品"};
         int countTab = 3;
         int countProduct = 10;
@@ -111,7 +115,7 @@ public class ProductController {
             list.add(map);
         }
 
-        return list;
+        return ResultHelper.ok();
     }
 
     @ApiOperation(value = "wx获取商品详情")
