@@ -4,3 +4,7 @@
 其次在application启动类中加上注解EnableJpaAuditing
 在jpa.save方法被调用的时候，时间字段会自动设置并插入数据库，
 但是CreatedBy和LastModifiedBy并没有赋值，因为需要实现AuditorAware接口来返回你需要插入的值。
+
+
+
+localhost:8010/api/druid/login.html

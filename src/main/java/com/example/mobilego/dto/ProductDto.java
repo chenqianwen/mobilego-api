@@ -9,5 +9,5 @@ import lombok.Data;
  * @Description：
  */
 @Data
-public class ProductDto extends Product {
+public class ProductDto extends Product{
 }

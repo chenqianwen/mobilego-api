@@ -3,9 +3,8 @@ package com.example.mobilego.controller;
 import com.example.mobilego.dto.ProductDto;
 import com.example.mobilego.entity.Product;
 import com.example.mobilego.entity.Theme;
-import com.example.mobilego.exception.UnauthorizedException;
-import com.example.mobilego.service.ProductService;
-import com.example.mobilego.service.ThemeService;
+import com.example.mobilego.service.IProductService;
+import com.example.mobilego.service.IThemeService;
 import com.example.mobilego.util.response.Result;
 import com.example.mobilego.util.response.ResultHelper;
 import io.swagger.annotations.Api;
@@ -38,36 +37,36 @@ import java.util.Map;
 public class ProductController {
 
     @Autowired
-    private ProductService productService;
+    private IProductService productService;
 
     @Autowired
-    private ThemeService themeService;
+    private IThemeService themeService;
 
     @ApiOperation(value = "保存／更新商品")
     @PostMapping
     public Result save(@RequestBody ProductDto model) {
-        Product savedModel = productService.save(model);
-        return ResultHelper.ok(savedModel);
+        boolean insertFlag = productService.insert(model);
+        return insertFlag?ResultHelper.ok(model):ResultHelper.error(model);
     }
 
     @ApiOperation(value = "查询商品")
     @GetMapping("/{id}")
     public Result get(@PathVariable String id) throws Exception {
-        Product model = productService.findOne(id);
+        Product model = productService.selectById(id);
         return ResultHelper.ok(model);
     }
 
     @ApiOperation(value = "逻辑删除商品")
     @DeleteMapping("/{id}")
     public Result deleteLogic(@PathVariable String id) {
-        Product deletedModel = productService.deleteLogicById(id);
-        return ResultHelper.ok();
+        boolean deleteFlag = productService.deleteById(id);
+        return deleteFlag?ResultHelper.ok():ResultHelper.error();
     }
 
     @ApiOperation(value = "设置商品为横幅商品")
     @PutMapping("/banner")
     public Result setBanner(List<String> ids) {
-        List<Product> products = productService.findByIds(ids);
+        List<Product> products = productService.selectBatchIds(ids);
         products.stream().filter(one -> {
             if (one.getIsBanner() == 0) {
                 one.setIsBanner(1);
@@ -75,13 +74,13 @@ public class ProductController {
             }
             return false;
         });
-        List<Product> savedModels = productService.save(products);
-        return ResultHelper.ok(savedModels);
+        boolean isUpdateBatch = productService.updateBatchById(products);
+        return isUpdateBatch?ResultHelper.ok(products):ResultHelper.error();
     }
 
 
     @ApiOperation(value = "wx首页获取横幅数据")
-    @GetMapping("/banner")
+    @GetMapping("/wx/banner")
     public Result banner() throws Exception {
         List<Product> bannerProduct = productService.findBannerProduct();
         return ResultHelper.ok(bannerProduct);
@@ -89,7 +88,7 @@ public class ProductController {
 
 
     @ApiOperation(value = "wx首页获取主题数据")
-    @GetMapping("/theme")
+    @GetMapping("/wx/theme")
     public Result theme() throws Exception{
         List<Theme> themeList = themeService.findThemeAndProductBySort();
         String[] tabs = new String[]{"每日推荐", "热门畅销", "折扣商品"};
