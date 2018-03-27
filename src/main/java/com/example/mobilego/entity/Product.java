@@ -1,5 +1,6 @@
 package com.example.mobilego.entity;
 
+import com.example.mobilego.support.entity.BaseEntity;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -12,7 +13,7 @@ import java.math.BigDecimal;
  * @Description： 商品
  */
 @Data
-public class Product extends SupperEntity<Product> {
+public class Product extends BaseEntity {
 
     /**
      * 商品名称

@@ -3,6 +3,9 @@ package com.example.mobilego.config;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
+import com.example.mobilego.support.auditor.AuditorService;
+import com.example.mobilego.support.auditor.DefaultAuditorServiceImpl;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
@@ -41,5 +44,15 @@ public class BeanConfig {
         fasHttpMessageConverter.setFastJsonConfig(fastJsonConfig);
         HttpMessageConverter<?> converter = fasHttpMessageConverter;
         return new HttpMessageConverters(converter);
+    }
+
+    /**
+     * 配置默认的审计者
+     * @return
+     */
+    @Bean
+    @ConditionalOnMissingBean(name = "auditorService")
+    public AuditorService auditorService(){
+        return  new DefaultAuditorServiceImpl();
     }
 }

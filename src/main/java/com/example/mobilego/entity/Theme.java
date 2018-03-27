@@ -1,5 +1,6 @@
 package com.example.mobilego.entity;
 
+import com.example.mobilego.support.entity.BaseEntity;
 import lombok.Data;
 
 /**
@@ -8,7 +9,7 @@ import lombok.Data;
  * @Description： 商品的主题
  */
 @Data
-public class Theme extends SupperEntity<Theme> {
+public class Theme extends BaseEntity {
 
     /**
      * 主题名称
@@ -16,7 +17,7 @@ public class Theme extends SupperEntity<Theme> {
     private String name;
 
     /**
-     * 排序
+     * 排序，越小越排前面
      */
     private Integer sort;
 

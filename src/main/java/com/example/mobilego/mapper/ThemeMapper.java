@@ -1,7 +1,12 @@
 package com.example.mobilego.mapper;
 
-import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.example.mobilego.entity.Theme;
+import com.example.mobilego.entity.dto.ThemeAndProduct;
+import com.example.mobilego.support.mapper.BaseMapper;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author： ygl
@@ -9,4 +14,11 @@ import com.example.mobilego.entity.Theme;
  * @Description：
  */
 public interface ThemeMapper extends BaseMapper<Theme> {
+
+    /**
+     * 获取主题和对应的商品
+     * @return
+     * @throws Exception
+     */
+    List<ThemeAndProduct> findThemeAndProduct() throws Exception;
 }

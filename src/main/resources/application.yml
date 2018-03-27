@@ -3,52 +3,41 @@ server:
   servlet:
     context-path: /api
 spring:
-  profiles:
-    active: dev
-
-#spring:
-#  profiles:  dev
+#  关于热部署：开启以下配置就会实时重启，一般通过ctrl+f9即可重新加载
+#  devtools:
+#    restart:
+#      enabled: true
+##     设置重启目录
+#      additionalPaths: src/main/java
+#      设置不需要重启目录
+#      exclude: META-INF/**,resources/**,static/**,public/**,templates/**
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/mobilego?characterEncoding=utf-8&useSSL=false
     username: root
     password: root
-#  jpa:
-#    hibernate:
-#      ddl-auto: update
-#    open-in-view: true
-#    show-sql: true
 
-
-mybatis-plus:
-  mapper-locations: classpath:/mapper/*Mapper.xml
-  #实体扫描，多个package用逗号或者分号分隔
-  typeAliasesPackage: com.example.mobilego.entity
-  typeEnumsPackage: com.example.mobilego.entity.enums
-  global-config:
-    #主键类型  0:"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
-    id-type: 2
-    #字段策略 0:"忽略判断",1:"非 NULL 判断"),2:"非空判断"
-    field-strategy: 2
-    #驼峰下划线转换
-    db-column-underline: true
-    #刷新mapper 调试神器
-    refresh-mapper: true
-    #数据库大写下划线转换
-    #capital-mode: true
-    #序列接口实现类配置,不在推荐使用此方式进行配置,请使用自定义bean注入
-    key-generator: com.baomidou.mybatisplus.incrementer.H2KeyGenerator
-    #逻辑删除配置（下面3个配置）
-    logic-delete-value: 0
-    logic-not-delete-value: 1
-    #自定义sql注入器,不在推荐使用此方式进行配置,请使用自定义bean注入
-    sql-injector: com.baomidou.mybatisplus.mapper.LogicSqlInjector
-    #自定义填充策略接口实现,不在推荐使用此方式进行配置,请使用自定义bean注入
-    meta-object-handler: com.example.mobilego.MyMetaObjectHandler
-    #自定义SQL注入器
-    #sql-injector: com.baomidou.springboot.xxx
-    # SQL 解析缓存，开启后多租户 @SqlParser 注解生效
-    sql-parser-cache: true
+mybatis:
+  type-aliases-package: com.example.mobilego.entity
+#  type-handlers-package: com.example.typehandler
+  mapper-locations: classpath:mapper/*.xml
   configuration:
     map-underscore-to-camel-case: true
-    cache-enabled: false
+    default-fetch-size: 100
+    default-statement-timeout: 30
+mapper:
+    mappers:
+        - com.example.mobilego.support.mapper.BaseMapper
+    not-empty: false
+    identity: MYSQL
+pagehelper:
+    helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql
+
+
+logging:
+  level:
+    root: info
+    com.example.mobilego.mapper: TRACE
