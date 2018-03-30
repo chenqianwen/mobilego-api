@@ -4,15 +4,23 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 
 <generatorConfiguration>
-    <properties resource="application.yml"/>
+    <properties resource="generator.properties"/>
 
     <context id="mysql" targetRuntime="MyBatis3Simple" defaultModelType="flat">
         <property name="beginningDelimiter" value="`"/>
         <property name="endingDelimiter" value="`"/>
 
+
         <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
             <property name="mappers" value="com.example.mobilego.support.mapper.BaseMapper"/>
         </plugin>
+
+
+        <commentGenerator type="com.example.mobilego.support.generator.MyCommentGenerator">
+            <property name="addRemarkComments" value="true"/>
+            <property name="dateFormat" value="yyyy/MM/dd-HH:mm"/>
+        </commentGenerator>
+
 
         <jdbcConnection driverClass="${spring.datasource.driver-class-name}"
                         connectionURL="${spring.datasource.url}"
@@ -21,18 +29,26 @@
         </jdbcConnection>
 
         <!-- 生成entity所在的包 -->
-        <javaModelGenerator targetPackage="com.example.mobilego.entity" targetProject="src/main/java"/>
-
+        <javaModelGenerator targetPackage="com.example.mobilego.entity" targetProject="src/main/java">
+            <property name="rootClass" value="com.example.mobilego.support.entity.BaseEntity"/>
+            <property name="enableSubPackages" value="true"/>
+        </javaModelGenerator>
         <!-- 生成mapper所在的目录 -->
         <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources"/>
 
         <!-- 配置mapper对应的java映射 -->
         <javaClientGenerator targetPackage="com.example.mobilego.mapper" targetProject="src/main/java"
-                             type="XMLMAPPER"/>
+                             type="XMLMAPPER">
+        </javaClientGenerator>
 
-        <table tableName="city">
-            <!--mysql 配置-->
-            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
+
+        <table tableName="order_product">
+            <ignoreColumn column="id"/>
+            <ignoreColumn column="created_date"/>
+            <ignoreColumn column="created_by"/>
+            <ignoreColumn column="updated_date"/>
+            <ignoreColumn column="updated_by"/>
+            <ignoreColumn column="is_deleted"/>
         </table>
     </context>
 </generatorConfiguration>

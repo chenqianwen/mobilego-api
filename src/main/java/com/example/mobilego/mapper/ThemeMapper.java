@@ -21,4 +21,11 @@ public interface ThemeMapper extends BaseMapper<Theme> {
      * @throws Exception
      */
     List<ThemeAndProduct> findThemeAndProduct() throws Exception;
+
+    /**
+     * 获取名称 根据sort asc 排序
+     * @return
+     * @throws Exception
+     */
+    List<Theme> findNameSorted() throws Exception;
 }

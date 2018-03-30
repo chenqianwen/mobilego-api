@@ -2,20 +2,23 @@ package com.example.mobilego.entity.dto;
 
 import lombok.Data;
 
-import java.math.BigDecimal;
-
 /**
  * @author： ygl
- * @date： 2018/3/27-15:37
+ * @date： 2018/3/29-15:10
  * @Description：
  */
 @Data
-public class ThemeAndProduct {
+public class CategoryAndProduct {
 
     /**
-     * 主题名称
+     * 分类名称
      */
-    private String themeName;
+    private String categoryName;
+
+    /**
+     * 分类主图
+     */
+    private String categoryImgUrl;
 
     /**
      * 商品Id
@@ -31,8 +34,4 @@ public class ThemeAndProduct {
      * 商品主图url
      */
     private String productImgUrl;
-    /**
-     * 商品价格
-     */
-    private BigDecimal productPrice;
 }

@@ -10,6 +10,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,8 +28,13 @@ public class ThemeServiceImpl extends BaseServiceImpl<Theme> implements IThemeSe
 
     @Autowired
     public void setThemeMapper(ThemeMapper themeMapper) {
-        super.setBaseMapper(themeMapper);
+        //super.setBaseMapper(themeMapper);
         this.themeMapper = themeMapper;
+    }
+
+    @Override
+    public List<Theme> findNameSorted() throws Exception {
+        return themeMapper.findNameSorted();
     }
 
     @Override
@@ -42,12 +48,14 @@ public class ThemeServiceImpl extends BaseServiceImpl<Theme> implements IThemeSe
             String productId = themeAndProduct.getProductId();
             String productName = themeAndProduct.getProductName();
             String productImgUrl = themeAndProduct.getProductImgUrl();
-            Map<String, String> productMap = null;
+            BigDecimal productPrice = themeAndProduct.getProductPrice();
+            Map<String, Object> productMap = null;
             if (StringUtils.isNotBlank(productId)) {
                 productMap = new HashMap<>(3);
                 productMap.put("productId", productId);
                 productMap.put("productName", productName);
                 productMap.put("productImgUrl", productImgUrl);
+                productMap.put("productPrice", productPrice);
             }
             // 最终的list中包含该主题名称标志：
             boolean containThemeNameFlag = false;

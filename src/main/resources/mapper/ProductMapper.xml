@@ -2,11 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.example.mobilego.mapper.ProductMapper">
 
+    <!-- 微信获得横幅数据 -->
     <select id="findBannerProduct" resultType="product">
         select
         id, name, price, major_img_url, minor_img_urls,detail_img_urls,description
         from product
         where is_banner = 1 and is_deleted = 0
+    </select>
+
+
+    <select id="findByThemeId" resultType="themeAndProduct" parameterType="string">
+        select p.name as productName,p.major_img_url as productImgUrl,p.price
+        from theme t ,theme_product tp, product p
+        where t.is_deleted = 0 and p.is_deleted = 0 and t.id = tp.theme_id and tp.product_id= p.id and t.id = #{id}
+        order by t.sort asc
+    </select>
+
+
+    <select id="findByCategoryId" resultType="categoryAndProduct" parameterType="string">
+        select p.name as productName,p.major_img_url as productImgUrl,p.id as productId,c.name as categoryName,c.major_img_url as categoryImgUrl
+        from category c ,category_product cp, product p
+        where c.is_deleted = 0 and p.is_deleted = 0 and c.id = cp.category_id and cp.product_id= p.id and c.id = #{id}
+        order by c.sort asc
     </select>
 
 </mapper>

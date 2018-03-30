@@ -16,8 +16,16 @@ import java.util.Map;
 public interface IThemeService extends IBaseService<Theme> {
 
     /**
+     * 查询主题名称,根据sort asc排序
+     * @return
+     * @throws Exception
+     */
+    List<Theme> findNameSorted() throws Exception;
+
+
+    /**
      * 查询主题和对应的商品,根据sort asc排序
-     * 返回结果：[{ themeName:11, productList:[{productId:1,productName:22,productImgUrl:33}]}]
+     * 返回结果：[{ categoryName:11,productList:[{productId:1,productName:22,productImgUrl:33,prodcutPrice:22}]}]
      * @return
      * @throws Exception
      */

@@ -20,7 +20,10 @@ public class ProductDetail {
 
     private BigDecimal price;
 
+    private String majorImgUrl;
+
     private String[] minorImgUrls;
 
     private String[] detailImgUrls;
+
 }

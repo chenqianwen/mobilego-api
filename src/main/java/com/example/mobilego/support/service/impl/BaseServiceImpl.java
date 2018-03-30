@@ -23,21 +23,19 @@ import java.util.List;
  * @date： 2018/3/26
  * @Description：
  */
-@Service
 public class BaseServiceImpl<T extends BaseEntity> implements IBaseService<T> {
 
     @Autowired
     private AuditorService auditorService;
 
-    /**
-     * need to autowired by subclass
-     */
-    @Setter
+    @Autowired
     private BaseMapper<T> baseMapper;
 
     @Override
     public int insert(T t) {
-        t.setId(IdGenerateHelper.snowflakeId());
+        if (StringUtils.isBlank(t.getId())) {
+            t.setId(IdGenerateHelper.snowflakeId());
+        }
         t.setCreatedBy(auditorService.getCurrentAuditor());
         t.setCreatedDate(new Date());
         t.setUpdatedBy(auditorService.getCurrentAuditor());
@@ -46,8 +44,17 @@ public class BaseServiceImpl<T extends BaseEntity> implements IBaseService<T> {
     }
 
     @Override
-    public int insertList(List<T> t) {
-        return baseMapper.insertList(t);
+    public int insertList(List<T> list) {
+        for (T t : list) {
+            if (StringUtils.isBlank(t.getId())) {
+                t.setId(IdGenerateHelper.snowflakeId());
+            }
+            t.setCreatedBy(auditorService.getCurrentAuditor());
+            t.setCreatedDate(new Date());
+            t.setUpdatedBy(auditorService.getCurrentAuditor());
+            t.setUpdatedDate(new Date());
+        }
+        return baseMapper.insertList(list);
     }
 
     @Override
@@ -71,6 +78,8 @@ public class BaseServiceImpl<T extends BaseEntity> implements IBaseService<T> {
     public int updateList(List<T> list) {
         int rows = 0;
         for (T t : list) {
+            t.setUpdatedBy(auditorService.getCurrentAuditor());
+            t.setUpdatedDate(new Date());
             rows += update(t);
         }
         return rows;

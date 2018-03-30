@@ -85,5 +85,6 @@ CREATE TABLE `order_product` (
   `updated_date` datetime(0) NOT NULL COMMENT '修改时间',
   `order_id` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '订单ID',
   `product_id` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '商品ID',
+  `count` int(8) NOT NULL DEFAULT 0 COMMENT '商品数量',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = MyISAM CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
