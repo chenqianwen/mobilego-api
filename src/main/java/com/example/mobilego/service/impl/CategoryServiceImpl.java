@@ -22,13 +22,9 @@ import java.util.Map;
 @Service
 public class CategoryServiceImpl extends BaseServiceImpl<Category> implements ICategoryService {
 
+    @Autowired
     private CategoryMapper categoryMapper;
 
-    @Autowired
-    public void setCategoryMapper(CategoryMapper categoryMapper) {
-        //super.setBaseMapper(categoryMapper);
-        this.categoryMapper = categoryMapper;
-    }
 
     @Override
     public List<Category> findCategorySorted() throws Exception {

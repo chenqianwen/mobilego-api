@@ -27,26 +27,26 @@ import java.util.Map;
 public class CategoryController {
 
     @Autowired
-    private ICategoryService iCategoryService;
+    private ICategoryService categoryService;
 
     @Autowired
-    private IProductService iProductService;
+    private IProductService productService;
 
     @GetMapping("/product/wx")
     public Result findCategoryAndProduct() throws Exception{
-        List<Map> list = iCategoryService.findCategoryAndProduct();
+        List<Map> list = categoryService.findCategoryAndProduct();
         return ResultHelper.ok(list);
     }
 
     @GetMapping("/wx")
     public Result findCategory() throws Exception{
-        List<Category> list = iCategoryService.findCategorySorted();
+        List<Category> list = categoryService.findCategorySorted();
         return ResultHelper.ok(list);
     }
 
     @GetMapping("/{id}/product/wx")
     public Result findProductByCategory(@PathVariable String id) throws Exception{
-        List<CategoryAndProduct> categoryAndProductList = iProductService.findByCategoryId(id);
+        List<CategoryAndProduct> categoryAndProductList = productService.findByCategoryId(id);
         if (CollectionUtils.isEmpty(categoryAndProductList)) {
             return ResultHelper.ok();
         }

@@ -5,4 +5,8 @@
     <result column="order_status" jdbcType="TINYINT" property="orderStatus" />
     <result column="total_price" jdbcType="DECIMAL" property="totalPrice" />
   </resultMap>
+
+  <select id="countByStatus" resultType="int">
+    select count(id) from orders where order_status = #{status} and user_id = #{userId} and is_deleted = 0
+  </select>
 </mapper>

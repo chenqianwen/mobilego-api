@@ -14,6 +14,7 @@ import com.example.mobilego.util.IdGenerateHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -27,19 +28,14 @@ import java.util.List;
 @Service
 public class OrderServiceImpl extends BaseServiceImpl<Order> implements IOrderService {
 
+    @Autowired
     private OrderMapper orderMapper;
 
     @Autowired
-    public void setOrderMapper(OrderMapper orderMapper) {
-        //super.setBaseMapper(orderMapper);
-        this.orderMapper = orderMapper;
-    }
+    private IOrderProductService orderProductService;
 
     @Autowired
-    private IOrderProductService iOrderProductService;
-
-    @Autowired
-    private IProductService iProductService;
+    private IProductService productService;
 
     @Transactional(rollbackFor = Exception.class)
     @Override
@@ -54,7 +50,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements IOrderSe
         for (OrderRequestDto model : models) {
             OrderProduct orderProduct = new OrderProduct();
             String productId = model.getProductId();
-            Product product = iProductService.findById(productId);
+            Product product = productService.findById(productId);
             int counts = model.getCounts();
             orderProduct.setOrderId(order.getId());
             orderProduct.setProductId(productId);
@@ -68,11 +64,15 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements IOrderSe
                 total.add(partTotal);
             }
         }
-        iOrderProductService.insertList(orderProductList);
-
+        orderProductService.insertList(orderProductList);
         // 保存订单
         order.setTotalPrice(total);
         insert(order);
-        return  order;
+        return order;
+    }
+
+    @Override
+    public int countByStatus(OrderStatus wait, String userId) {
+        return orderMapper.countByStatus(wait.getCode(),userId);
     }
 }

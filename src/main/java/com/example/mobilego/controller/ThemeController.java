@@ -28,21 +28,21 @@ import java.util.stream.Collectors;
 public class ThemeController {
 
     @Autowired
-    private IThemeService iThemeService;
+    private IThemeService themeService;
 
     @Autowired
-    private IProductService iProductService;
+    private IProductService productService;
 
     @RequestMapping("/product/wx")
     public Result findThemeAndProduct() throws Exception{
-        List<Theme> themeList = iThemeService.findNameSorted();
+        List<Theme> themeList = themeService.findNameSorted();
         if (CollectionUtils.isEmpty(themeList)) {
             return ResultHelper.ok(themeList);
         }
         // 所有的主题名称
         //List<String> themeNames = themeList.stream().map(Theme::getName).collect(Collectors.toList());
         String firstID = themeList.get(0)!= null?themeList.get(0).getId():null;
-        List<ThemeAndProduct> products = iProductService.findByThemeId(firstID);
+        List<ThemeAndProduct> products = productService.findByThemeId(firstID);
         // 最终的结果：
         Map<String,Object> map = new HashMap<>();
         map.put("themeData",themeList);
@@ -53,7 +53,7 @@ public class ThemeController {
     @RequestMapping("/{id}/product")
     public Result findProductByThemeId(@PathVariable String id) throws Exception{
         // TODO 查看分类商品变动的flag，再决定是否查询数据
-        List<ThemeAndProduct>  themeAndProductList = iProductService.findByThemeId(id);
+        List<ThemeAndProduct>  themeAndProductList = productService.findByThemeId(id);
         return ResultHelper.ok(themeAndProductList);
     }
 }

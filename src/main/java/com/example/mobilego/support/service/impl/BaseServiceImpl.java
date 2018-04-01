@@ -43,18 +43,19 @@ public class BaseServiceImpl<T extends BaseEntity> implements IBaseService<T> {
         return baseMapper.insertSelective(t);
     }
 
+    //TODO 需要优化
+    /**
+     * 批量插入
+     * @param list
+     * @return
+     */
     @Override
     public int insertList(List<T> list) {
+        int rows = 0;
         for (T t : list) {
-            if (StringUtils.isBlank(t.getId())) {
-                t.setId(IdGenerateHelper.snowflakeId());
-            }
-            t.setCreatedBy(auditorService.getCurrentAuditor());
-            t.setCreatedDate(new Date());
-            t.setUpdatedBy(auditorService.getCurrentAuditor());
-            t.setUpdatedDate(new Date());
+            rows += insert(t);
         }
-        return baseMapper.insertList(list);
+        return rows;
     }
 
     @Override

@@ -19,13 +19,17 @@ public enum OrderStatus {
      */
     WAIT(1,"待付款"),
     /**
+     * 待付款状态
+     */
+    PAY(2,"已付款"),
+    /**
      * 等评价状态
      */
-    comment(2,"等评价"),
+    COMMENT(3,"待评价"),
     /**
      * 已完成状态
      */
-    FINISH(3,"已完成");
+    FINISH(4,"已完成");
 
     @Setter
     @Getter

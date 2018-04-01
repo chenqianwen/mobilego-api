@@ -18,7 +18,7 @@ public class Order extends BaseEntity {
     /** 
      *  订单状态
      */
-    private int orderStatus;
+    private Integer orderStatus;
 
     /** 
      *  订单总价
@@ -26,11 +26,16 @@ public class Order extends BaseEntity {
     private BigDecimal totalPrice;
 
     /**
+     *  消费者主键
+     */
+    private String userId;
+
+    /**
      *  订单是否可以付款：
      *  可适用于，限制于条件生成的订单不可以付款
      *  暂时先不持久化
      */
     @Transient
-    private boolean isCanPay = true;
+    private Integer isCanPay = 0;
 
 }
