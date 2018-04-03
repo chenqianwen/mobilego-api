@@ -43,10 +43,10 @@ CREATE TABLE `theme`  (
 CREATE TABLE `orders`  (
   `id` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `created_by` varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '创建者',
-  `created_date` datetime(0) NOT NULL COMMENT '创建时间',
+  `created_date` datetime NOT NULL COMMENT '创建时间',
   `is_deleted` tinyint(4) NOT NULL DEFAULT 0 COMMENT '删除标志',
   `updated_by` varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '修改者',
-  `updated_date` datetime(0) NOT NULL COMMENT '修改时间',
+  `updated_date` datetime NOT NULL COMMENT '修改时间',
   `order_status` tinyint(4) NOT NULL COMMENT '订单状态',
   `total_price` decimal(10, 2) NOT NULL COMMENT '订单总价',
   PRIMARY KEY (`id`) USING BTREE
